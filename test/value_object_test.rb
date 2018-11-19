@@ -79,6 +79,10 @@ class ValueObject::Test < ActiveSupport::TestCase
     assert_equal 'user@email.com'.to_json, Email.new('user@email.com').to_json
   end
 
+  test 'value objects can call as_json on value' do
+    assert_equal 'user@email.com'.as_json, Email.new('user@email.com').as_json
+  end
+
   test 'can validate value object' do
     assert Email.new('user@email.com').valid?
     refute Email.new('invalid').valid?

@@ -43,5 +43,9 @@ module ValueObject
     def to_json
       value.to_json
     end
+
+    def as_json(*args)
+      value.as_json(*args)
+    end
   end
 end
