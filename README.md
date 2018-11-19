@@ -97,6 +97,8 @@ Email.new('my@email.com') <=> Email.new('my@email.com') #=> 0
 Email.new('my@email.com').value #=> 'my@email.com'
 
 Email.new('my@email.com').to_s #=> 'my@email.com'
+
+Email.new('my@email.com').to_json #=> "\"user@email.com\""
 ```
 
 ### Basic validation

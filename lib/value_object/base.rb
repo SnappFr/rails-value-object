@@ -39,5 +39,9 @@ module ValueObject
     def to_s
       @value
     end
+
+    def to_json
+      value.to_json
+    end
   end
 end
