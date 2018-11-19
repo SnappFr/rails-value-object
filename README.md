@@ -135,7 +135,6 @@ Can user validator DSL to give specific validation :
 
 ```ruby
 class Birthdate < ValueObject::Base
-  FORMAT = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   validator name: 'MajorityValidator', with: ->(record, attribute, value) do
     record.errors.add(:birthdate, :too_young) if value.present? && value.younger_than(18)?
