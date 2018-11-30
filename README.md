@@ -19,6 +19,22 @@ And then execute :
 $ bundle
 ```
 
+### Monkey patch
+
+Uniqueness validator will blow cast type error. Add this in initializer :
+
+```rb
+ActiveRecord::ConnectionAdapters::AbstractAdapter.descendants.each do |adapter|
+  adapter.send(:define_method, :type_cast) do |value, column = nil|
+    if value.is_a?(ValueObject::Base)
+      super(value.value, column)
+    else
+      super(value, column)
+    end
+  end
+end
+```
+
 ## Usage
 
 Considering model User migrated with :

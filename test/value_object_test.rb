@@ -33,7 +33,7 @@ class User < ApplicationRecord
   value_object_accessor :paypal_id, Email
   value_object_accessor :birthdate
 
-  validates :email, presence: true, email: true
+  validates :email, presence: true, email: true, uniqueness: true
   validates :birthdate, birthday: { allow_nil: true }
 end
 
@@ -110,5 +110,12 @@ class ValueObject::Test < ActiveSupport::TestCase
     assert user.errors.has_key?(:birthdate)
     assert_equal 1, user.errors.details[:birthdate].size
     assert_equal :too_young, user.errors.details[:birthdate].first[:error]
+  end
+
+  test 'can create user from value objects' do
+    user = User.create(email: 'user@mail.com')
+
+    assert user.present?
+    assert User.where(email: 'user@mail.com').present?
   end
 end
