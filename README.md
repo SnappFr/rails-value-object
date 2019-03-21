@@ -24,15 +24,21 @@ $ bundle
 Uniqueness validator will blow cast type error. Add this in initializer :
 
 ```rb
-ActiveRecord::ConnectionAdapters::AbstractAdapter.descendants.each do |adapter|
-  adapter.send(:define_method, :type_cast) do |value, column = nil|
-    if value.is_a?(ValueObject::Base)
-      super(value.value, column)
-    else
-      super(value, column)
-    end
+ActiveRecord::Base.connection.class.send(:define_method, :type_cast) do |value, column = nil|
+  if value.is_a?(ValueObject::Base)
+    super(value.value, column)
+  else
+    super(value, column)
   end
 end
+ActiveRecord::Base.connection.class.send(:define_method, :quote) do |value|
+  if value.is_a?(ValueObject::Base)
+    super(value.value)
+  else
+    super(value)
+  end
+end
+
 ```
 
 ## Usage
